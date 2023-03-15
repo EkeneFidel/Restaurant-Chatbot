@@ -1,0 +1,51 @@
+{
+    "foodItems": [
+        {
+            "id": 1,
+            "item": "Jazzy Burger",
+            "price": 12000
+        },
+        {
+            "id": 2,
+            "item": "Jumbo Pizza",
+            "price": 10000
+        },
+        {
+            "id": 3,
+            "item": "Coca-cola",
+            "price": 1000
+        },
+        {
+            "id": 4,
+            "item": "Water",
+            "price": 800
+        },
+        {
+            "id": 5,
+            "item": "Nigerian Jollof",
+            "price": 5000
+        }
+    ],
+    "menuItems": [
+        {
+            "id": 1,
+            "prompt": "Place an order"
+        },
+        {
+            "id": 99,
+            "prompt": "Checkout order"
+        },
+        {
+            "id": 98,
+            "prompt": "See order history"
+        },
+        {
+            "id": 97,
+            "prompt": "See current order"
+        },
+        {
+            "id": 0,
+            "prompt": "Cancel order"
+        }
+    ]
+}
