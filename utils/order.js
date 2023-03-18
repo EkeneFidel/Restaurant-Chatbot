@@ -14,14 +14,19 @@ const placeOrder = (socket, sessionId) => {
     return [mainMenu, foodMenu];
 };
 const checkoutOrder = (socket, client, sessionId, currentOrder) => {
-    currentOrder.id = client.RPUSH(
-        `orders:${sessionId}`,
-        JSON.stringify(currentOrder)
-    );
-    currentOrder.items = {};
-    currentOrder.totalPrice = 0;
-    let botMessage = formatMessage("bot", "Order completed", sessionId);
-    pushMessage(socket, sessionId, botMessage);
+    if (Object.keys(currentOrder.items).length === 0) {
+        let botMessage = formatMessage("bot", "You have no order", sessionId);
+        pushMessage(socket, sessionId, botMessage);
+    } else {
+        currentOrder.id = client.RPUSH(
+            `orders:${sessionId}`,
+            JSON.stringify(currentOrder)
+        );
+        currentOrder.items = {};
+        currentOrder.totalPrice = 0;
+        let botMessage = formatMessage("bot", "Order completed", sessionId);
+        pushMessage(socket, sessionId, botMessage);
+    }
     mainMenu = true;
     foodMenu = false;
     sendMenu(socket, sessionId);
@@ -34,6 +39,7 @@ const showOrderHistory = async (socket, client, sessionId) => {
     if (found === 1) {
         let res = await client.lRange(`orders:${sessionId}`, 0, -1);
         let finalTable;
+        let finalInfo;
 
         finalTable = res.map(async (x) => {
             let id = await client.lPos(`orders:${sessionId}`, x);
@@ -74,8 +80,12 @@ const showOrderHistory = async (socket, client, sessionId) => {
         for (let ord of finalTable) {
             finalMsg += await ord;
         }
-        let messages = formatMessage("bot", finalMsg, sessionId);
-        socket.emit("sendOrder", messages, type);
+        finalInfo = `<p class="text menu">
+                        This is your ${type}
+                    </p>
+                    ${finalMsg}`;
+        let messages = formatMessage("bot", finalInfo, sessionId);
+        pushMessage(socket, sessionId, messages);
     } else {
         let botMessage = formatMessage(
             "bot",
@@ -95,7 +105,7 @@ const showCurrentOrder = (socket, sessionId, currentOrder) => {
         let botMessage = formatMessage("bot", "You have no order", sessionId);
         pushMessage(socket, sessionId, botMessage);
     } else {
-        sendOrderMessage(socket, sessionId, currentOrder, type);
+        sendOrderMessage(socket, sessionId, currentOrder);
     }
     mainMenu = true;
     foodMenu = false;
@@ -120,6 +130,7 @@ const cancelOrder = (socket, sessionId, currentOrder) => {
 
 const sendOrderMessage = (socket, sessionId, currentOrder, type, id = "") => {
     let msg = "";
+    let finalInfo;
     for (let key in currentOrder.items) {
         msg += `<tr>
                     <td colspan="2">${currentOrder.items[key].item}</td>
@@ -149,8 +160,12 @@ const sendOrderMessage = (socket, sessionId, currentOrder, type, id = "") => {
                         </tbody>
                     </table>
                 </div>`;
+    finalInfo = `<p class="text menu">
+                This is your ${type}
+            </p>
+            ${table}`;
     let messages = formatMessage("bot", table, sessionId);
-    socket.emit("sendOrder", messages, type);
+    pushMessage(socket, sessionId, messages);
 };
 
 module.exports = {

@@ -17,9 +17,7 @@ chatForm.addEventListener("submit", (e) => {
 const appendMessage = (messages) => {
     $(".chat-window").append(
         `<div class="chat-message ${messages.sender}">
-            <p class="text">
             ${messages.info}
-            </p>
             <span class="time">${messages.time}</span>
         </div>`
     );
@@ -47,6 +45,6 @@ socket.on("SendMenu", (messages) => {
     appendMessage(messages);
 });
 
-socket.on("sendOrder", (messages, type) => {
-    appendOrder(messages, type);
+socket.on("sendOrder", (messages) => {
+    appendMessage(messages);
 });

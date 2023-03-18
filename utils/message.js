@@ -17,12 +17,15 @@ const getOldMessages = async (socket, sessionId, io) => {
 
 const sendMenu = async (socket, sessionId) => {
     let insructions = menuItems["menuPrompts"];
+    let finalMsg;
     let msg = "Select an option: <br> <br>";
     insructions.forEach((x) => {
         msg += `${x["id"]} -  ${x["prompt"]}<br> <br>`;
     });
-
-    let messages = formatMessage("bot", msg, sessionId);
+    finalMsg = `<p class="text">
+                    ${msg}
+                </p>`;
+    let messages = formatMessage("bot", finalMsg, sessionId);
     await client.RPUSH(`messages:${sessionId}`, JSON.stringify(messages));
     socket.emit("SendMenu", messages);
 };
@@ -30,13 +33,17 @@ const sendMenu = async (socket, sessionId) => {
 const sendFoodMenu = async (socket, sessionId) => {
     let insructions = menuItems["foodItems"];
     let msg = "Select an item to buy: <br> <br>";
+    let finalMsg;
     insructions.forEach((x) => {
         msg += `${x["id"]} -  ${x["item"]} - &#8358;${x[
             "price"
         ].toLocaleString()}<br> <br>`;
     });
+    finalMsg = `<p class="text">
+                    ${msg}
+                </p>`;
 
-    let messages = formatMessage("bot", msg, sessionId);
+    let messages = formatMessage("bot", finalMsg, sessionId);
     await client.RPUSH(`messages:${sessionId}`, JSON.stringify(messages));
     socket.emit("SendMenu", messages);
 };

@@ -33,7 +33,7 @@ body {
     min-height: 100vh;
     background: linear-gradient(
         #1d5c4b 0%,
-        #1d5c4b 130px,
+        #1d5c4b 40%,
         #383838 130px,
         #383838 100%
     );
@@ -119,7 +119,7 @@ header .chat-title h3 {
 
 .chat-message {
     word-wrap: break-word;
-    max-width: 30%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     padding: 7px 10px;
@@ -224,9 +224,11 @@ header .chat-title h3 {
 }
 table {
     border-collapse: collapse;
+    width: fit-content;
 }
 
 .reciept-title {
+    width: fit-content;
     font-weight: bold;
     text-align: center;
     font-size: 0.7rem;
@@ -237,7 +239,7 @@ table {
     font-family: "Caveat", cursive;
 }
 .reciept-table {
-    width: 100%;
+    width: fit-content;
     margin: 0 0 0.5rem 0;
 }
 .reciept-table thead tr th,
@@ -251,6 +253,7 @@ table {
     font-weight: normal;
     text-align: left;
     padding: 0.25rem 0;
+    width: 100%;
     border-top: 1px dashed black;
     white-space: nowrap;
 }
@@ -262,6 +265,12 @@ table {
 
 .service {
     border-bottom: 1px solid #000;
+}
+
+@media screen and (max-width: 700px) {
+    .chat-message {
+        width: fit-content;
+    }
 }
 
 /* table {
