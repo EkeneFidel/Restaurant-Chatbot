@@ -21,6 +21,7 @@
         "mongoose": "^7.0.1",
         "redis": "^4.6.5",
         "redis-om": "^0.3.6",
-        "socket.io": "^4.6.1"
+        "socket.io": "^4.6.1",
+        "uuid": "^9.0.0"
     }
 }

@@ -5,7 +5,8 @@ const http = require("http");
 const { v4: uuidv4 } = require("uuid");
 const { Server } = require("socket.io");
 const client = require("./client");
-const { getOldMessages } = require("./utils/message");
+const { handleUserPrompt, handleUserOrder } = require("./utils/menu");
+const { getOldMessages, sendMenu, pushMessage } = require("./utils/message");
 const formatMessage = require("./schema/format-message");
 
 const app = express();
@@ -24,7 +25,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("./public"));
 
 app.get("/", (req, res) => {
     res.render("room");
@@ -34,21 +35,42 @@ const wrap = (sessionMiddleware) => (socket, next) =>
     sessionMiddleware(socket.request, {}, next);
 
 io.use(wrap(sessionMiddleware));
+let foodMenu = false;
+let mainMenu = true;
 
-let order = [];
-
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     const session = socket.request.session;
     const sessionId = session.id;
     socket.join(sessionId);
-    getOldMessages(socket, sessionId, io);
+    getOldMessages(socket, sessionId);
+    let currentOrder = { items: {}, totalPrice: 0 };
 
-    socket.on("message", (messages) => {
+    socket.on("message", async (messages) => {
         let userMessage = formatMessage("user", messages, sessionId);
         client.RPUSH(`messages:${session.id}`, JSON.stringify(userMessage));
         io.to(sessionId).emit("createMessage", userMessage);
 
         let botMessage = "";
+
+        let userPrompt = messages;
+        if (mainMenu) {
+            // If main menu is the last bot message, collect user response
+            [mainMenu, foodMenu] = await handleUserPrompt(
+                userPrompt,
+                socket,
+                client,
+                sessionId,
+                currentOrder
+            );
+        } else if (foodMenu) {
+            // if the food menu is the last bot message, collect user response for item
+            [mainMenu, foodMenu] = handleUserOrder(
+                userPrompt,
+                socket,
+                sessionId,
+                currentOrder
+            );
+        }
     });
 });
 

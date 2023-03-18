@@ -2,12 +2,12 @@
     "foodItems": [
         {
             "id": 1,
-            "item": "Jazzy Burger",
+            "item": "Burger",
             "price": 12000
         },
         {
             "id": 2,
-            "item": "Jumbo Pizza",
+            "item": "Pizza",
             "price": 10000
         },
         {
@@ -22,11 +22,11 @@
         },
         {
             "id": 5,
-            "item": "Nigerian Jollof",
+            "item": "Jollof",
             "price": 5000
         }
     ],
-    "menuItems": [
+    "menuPrompts": [
         {
             "id": 1,
             "prompt": "Place an order"
