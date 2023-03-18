@@ -49,16 +49,18 @@ const showOrderHistory = async (socket, client, sessionId) => {
             for (let key in currentOrder.items) {
                 msg += `<tr>
                             <td colspan="2">${currentOrder.items[key].item}</td>
-                            <td>${currentOrder.items[key].quantity}</td>
+                            <td colspan="3">${
+                                currentOrder.items[key].quantity
+                            }</td>
                             <td>&#8358;${currentOrder.items[
                                 key
                             ].price.toLocaleString()}</td>
                         </tr>`;
             }
             msg += `<tr>
-                        <td colspan="2"></td>
-                        <td>Total</td>
-                        <td>&#8358;${currentOrder.totalPrice.toLocaleString()}</td>
+                        <td colspan="2"><b>Total</b></td>
+                        <td colspan="3"></td>
+                        <td><b>&#8358;${currentOrder.totalPrice.toLocaleString()}</b></td>
                     </tr>`;
             table += `<div class="table">
                             <h1 class="reciept-title">Your Order ${id}</h1>
@@ -66,7 +68,7 @@ const showOrderHistory = async (socket, client, sessionId) => {
                                 <thead>
                                     <tr>
                                         <th colspan="2">Item</th>
-                                        <th>Qty</th>
+                                        <th colspan="3">Qty</th>
                                         <th>Price</th>
                                     </tr>
                                 </thead>
@@ -134,16 +136,16 @@ const sendOrderMessage = (socket, sessionId, currentOrder, type, id = "") => {
     for (let key in currentOrder.items) {
         msg += `<tr>
                     <td colspan="2">${currentOrder.items[key].item}</td>
-                    <td>${currentOrder.items[key].quantity}</td>
+                    <td colspan="3">${currentOrder.items[key].quantity}</td>
                     <td>&#8358;${currentOrder.items[
                         key
                     ].price.toLocaleString()}</td>
                 </tr>`;
     }
     msg += `<tr>
-                <td colspan="2"></td>
-                <td>Total</td>
-                <td>&#8358;${currentOrder.totalPrice.toLocaleString()}</td>
+                <td colspan="2"><b>Total</b></td>
+                <td colspan="3"></td>
+                <td><b>&#8358;${currentOrder.totalPrice.toLocaleString()}</b></td>
             </tr>`;
     let table = `<div class="table">
                     <h1 class="reciept-title">Your Order ${id}</h1>
@@ -151,7 +153,7 @@ const sendOrderMessage = (socket, sessionId, currentOrder, type, id = "") => {
                         <thead>
                             <tr>
                                 <th colspan="2">Item</th>
-                                <th>Qty</th>
+                                <th colspan="3">Qty</th>
                                 <th>Price</th>
                             </tr>
                         </thead>

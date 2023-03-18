@@ -119,7 +119,7 @@ header .chat-title h3 {
 
 .chat-message {
     word-wrap: break-word;
-    width: 30%;
+    width: fit-content;
     display: flex;
     flex-direction: column;
     padding: 7px 10px;
@@ -224,11 +224,11 @@ header .chat-title h3 {
 }
 table {
     border-collapse: collapse;
-    width: fit-content;
+    width: 90%;
 }
 
 .reciept-title {
-    width: fit-content;
+    width: 90%;
     font-weight: bold;
     text-align: center;
     font-size: 0.7rem;
@@ -239,7 +239,7 @@ table {
     font-family: "Caveat", cursive;
 }
 .reciept-table {
-    width: fit-content;
+    width: 90%;
     margin: 0 0 0.5rem 0;
 }
 .reciept-table thead tr th,
@@ -251,7 +251,7 @@ table {
 .reciept-table th,
 .reciept-table td {
     font-weight: normal;
-    text-align: left;
+    text-align: center;
     padding: 0.25rem 0;
     width: 100%;
     border-top: 1px dashed black;
@@ -261,6 +261,7 @@ table {
 .reciept-table td:last-child,
 .reciept-table th:last-child {
     text-align: right;
+    margin-left: 0.25em;
 }
 
 .service {
