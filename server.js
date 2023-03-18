@@ -13,9 +13,6 @@ const formatMessage = require("./schema/format-message");
 const app = express();
 const sessionMiddleware = session({
     secret: "mysessionmiddlewaresecret",
-    store: new MemoryStore({
-        checkPeriod: 86400000, // prune expired entries every 24h
-    }),
     cookie: { httpOnly: true, expires: 1000 * 60 * 60 * 24 * 7 },
     resave: true,
     saveUninitialized: true,
